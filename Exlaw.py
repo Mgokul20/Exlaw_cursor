@@ -348,19 +348,18 @@ while not app.ChatBot.started:
 wish()
 voice_data = None
 while True:
-
     if app.ChatBot.userinputQueue.empty() ==False:
-      
         voice_data = app.ChatBot.popUserInput()
-        
-   
     else: 
+     voice_data = record_audio()
      print("Comes Again")
-    if '' in voice_data:
+    if 'exlaw' in voice_data:
         try:
-            
             respond(voice_data)
         except SystemExit:
             reply("Exit Successfull")
-            event.set()
             break
+        except:
+            print("EXCEPTION raised while closing.") 
+            event.set()
+            break     
