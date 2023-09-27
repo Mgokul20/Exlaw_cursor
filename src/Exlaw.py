@@ -12,9 +12,9 @@ from os import listdir
 from os.path import isfile, join
 import smtplib
 import wikipedia
-import Exlaw_cursor.src.Gesture_Controller as Gesture_Controller
-import Exlaw_cursor.src.Function as Function
-import Exlaw_cursor.src.app as app
+import  Gesture_Controller
+import  Function
+import  app
 import threading 
 
 today = date.today()
