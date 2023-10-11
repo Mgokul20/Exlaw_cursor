@@ -67,6 +67,14 @@ def record_audio():
             print('cant recognize')
         return voice_data.lower()
 
+def open_web(url, voice_data, keyword):
+    query = voice_data.split(keyword)[1]
+    try:
+        webbrowser.get().open(url.format(query))
+        reply('This is what I found Sir.')
+    except:
+        reply('Please check your Internet')
+
 def respond(voice_data):
     global file_exp_status, files, is_awake, path
     print(voice_data)
@@ -74,183 +82,41 @@ def respond(voice_data):
     if voice_data:
         app.eel.addUserMsg(voice_data)
 
-    if is_awake==False:
-        if 'wake up' in voice_data:
-            is_awake = True
-            
+    url_commands = {
+        'search': 'https://google.com/search?q={}',
+        'play spotify': 'https://open.spotify.com/{}',
+        'w3school': 'https://www.w3schools.com/{}',
+        'learn python': 'https://www.learnpython.org/{}',
+        'whatsapp': 'https://web.whatsapp.com/{}',
+        'instagram': 'https://www.instagram.com/{}',
+        'twitter': 'https://twitter.com/i/flow/login{}',
+        'gmail': 'https://accounts.google.com/v3/{}',
+        'weather': 'https://weather.com/en-IN{}',
+        'kit': 'https://kitcbe.com/{}',
+        'swiggy': 'https://www.swiggy.com/{}',
+        'amazon': 'https://www.amazon.in/{}',
+        'netflix': 'https://www.netflix.com/in/{}',
+    }
+
+    if not is_awake and 'wake up' in voice_data:
+        is_awake = True
     elif 'hello' in voice_data:
         wish()
-
     elif 'what is your name' in voice_data:
         reply('My name is Exlaw!')
-
     elif 'date' in voice_data:
         reply(today.strftime("%B %d, %Y"))
-
     elif 'time' in voice_data:
         reply(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
+    elif any(command in voice_data for command in url_commands.keys()):
+        for command, url in url_commands.items():
+            if command in voice_data:
+                open_web(url, voice_data, command)
+                break
+    # Handle other commands as before...
+    # ...
 
-    elif 'search' in voice_data:
-        reply('Searching for ' + voice_data.split('search')[1])
-        url = 'https://google.com/search?q=' + voice_data.split('search')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-            
-    elif 'play spotify' in voice_data: 
-        reply('Searching for ' + voice_data.split('play spotify')[1])
-        url = 'https://open.spotify.com/' + voice_data.split('play spotify')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-            
-    elif 'w3school' in voice_data:
-        reply('Searching for ' + voice_data.split('w3 school')[1])
-        url = 'https://www.w3schools.com/' + voice_data.split('w3school')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-            
-    elif 'learn python' in voice_data:
-        reply('Searching for ' + voice_data.split('learn python')[1])
-        url = 'https://www.learnpython.org/' + voice_data.split('learn python')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet') 
-                    
-    elif 'whatsapp' in voice_data: 
-        reply('Searching for ' + voice_data.split('whatsapp')[1])
-        url = 'https://web.whatsapp.com/' + voice_data.split('whatsapp')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-            
-    elif 'instagram' in voice_data:
-        reply('Searching for ' + voice_data.split('instagram')[1])
-        url = 'https://www.instagram.com/' + voice_data.split('instagram')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
 
-    elif 'twitter' in voice_data:
-        reply('Searching for ' + voice_data.split('twitter')[1])
-        url = 'https://twitter.com/i/flow/login' + voice_data.split('twitter')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-
-    elif 'gmail' in voice_data:
-        reply('Searching for ' + voice_data.split('gmail')[1])
-        url = 'https://accounts.google.com/v3/' + voice_data.split('gmail')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-
-    elif 'weather' in voice_data:
-        reply('Searching for ' + voice_data.split('weather')[1])
-        url = 'https://weather.com/en-IN' + voice_data.split('weather')[1]
-        try:
-                webbrowser.get().open(url)
-                reply('This is what I found Sir')
-        except:
-                reply('Please check your Internet')
-                
-    elif 'kit' in voice_data:
-        reply('Searching for ' + voice_data.split('kit')[1])
-        url = 'https://kitcbe.com/' + voice_data.split('kit')[1]
-        try:
-                webbrowser.get().open(url)
-                reply('This is what I found Sir')
-        except:
-                reply('Please check your Internet')
-
-    elif 'swiggy' in voice_data:
-        reply('Searching for ' + voice_data.split('swiggy')[1])
-        url = 'https://www.swiggy.com/' + voice_data.split('swiggy')[1]
-        try:
-                webbrowser.get().open(url)
-                reply('This is what I found Sir')
-        except:
-                reply('Please check your Internet')
-
-    elif 'amazon' in voice_data:
-        reply('Searching for ' + voice_data.split('amazon')[1])
-        url = 'https://www.amazon.in/' + voice_data.split('amazon')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-
-    elif 'netflix' in voice_data:
-        reply('Searching for ' + voice_data.split('netflix')[1])
-        url = 'https://www.netflix.com/in/' + voice_data.split('netflix')[1]
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-
-    elif 'location' in voice_data:
-        reply('Which place are you looking for ?')
-        if app.ChatBot.userinputQueue.empty()==False:
-            
-            temp_audio =app.ChatBot.userinputQueue.get() 
-            app.eel.addUserMsg(temp_audio)
-        else:
-            temp_audio = record_audio()
-          
-        reply('Locating...')
-        url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
-        try:
-            webbrowser.get().open(url)
-            reply('This is what I found Sir')
-        except:
-            reply('Please check your Internet')
-
-    elif ('bye' in voice_data) or ('by' in voice_data):
-        reply("Good bye Sir! Have a nice day.")
-        is_awake = False
-
-    elif ('exit' in voice_data) or ('terminate' in voice_data):
-        if Gesture_Controller.GestureController.gc_mode:
-            Gesture_Controller.GestureController.gc_mode = 0
-        app.ChatBot.close()
-        sys.exit()
-        
-    elif 'launch gesture recognition' in voice_data:
-        if Gesture_Controller.GestureController.gc_mode:
-            reply('Gesture recognition is already active')
-        else:
-            gc = Gesture_Controller.GestureController()
-            event =threading.Event()
-            t =threading.Thread(target = gc.start)
-            t.start()
-            reply('Launched Successfully')
-            event.set()
-
-    elif ('stop gesture recognition' in voice_data) or ('top gesture recognition' in voice_data):
-        if Gesture_Controller.GestureController.gc_mode:
-            Gesture_Controller.GestureController.gc_mode = 0
-            reply('Gesture recognition stopped')
-        else:
-            reply('Gesture recognition is already inactive')
             
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
