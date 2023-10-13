@@ -25,12 +25,27 @@ eel.expose(addAppMsg);
 
 
 function addUserMsg(msg) {
+    
     element = document.getElementById("messages");
     element.innerHTML += '<div class="message from ready rtol">' + msg + '</div>';
     element.scrollTop = element.scrollHeight - element.clientHeight - 15;
     //add delay for animation to complete and then modify class to => "message from"
     index = element.childElementCount - 1;
+    (async () => {
+        const rawResponse = await fetch('https://localhost/post', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: {"Message":`${msg}`}
+        });
+        const content = await rawResponse.json();
+      
+        console.log(content);
+      })();
     setTimeout(changeClass.bind(null, element, index, "message from"), 500);
+    
     // con.connect(function(err) {
     // con.query(`INSERT INTO exlaw(type,message) values (user,${msg})`, function (err, result) {
     //     if (err) throw err;
@@ -39,12 +54,27 @@ function addUserMsg(msg) {
 }
 
 function addAppMsg(msg) {
+    
     element = document.getElementById("messages");
     element.innerHTML += '<div class="message to ready ltor">' + msg + '</div>';
     element.scrollTop = element.scrollHeight - element.clientHeight - 15;
     //add delay for animation to complete and then modify class to => "message to"
     index = element.childElementCount - 1;
+    (async () => {
+        const rawResponse = await fetch('https://localhost/post', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: {"Message":`${msg}`}
+        });
+        const content = await rawResponse.json();
+      
+        console.log(content);
+      })();
     setTimeout(changeClass.bind(null, element, index, "message to"), 500);
+    
     //  var sql = `INSERT INTO exlaw(type,message) values (app,${msg})`;
     // con.connect(function(err) {
     // con.query(`INSERT INTO exlaw(type,message) values (app,${msg})`, function (err, result) {
@@ -58,7 +88,6 @@ function changeClass(element, index, newClass) {
     console.log(newClass +' '+ index);
     element.children[index].className = newClass;
 }
-
 
 function getUserInput() {
     element = document.getElementById("userInput");

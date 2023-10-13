@@ -129,7 +129,23 @@ def respond(voice_data):
             keyboard.press('v')
             keyboard.release('v')
         reply('Pasted')  
-    
+    elif 'launch gesture recognition' in voice_data:
+        if Gesture_Controller.GestureController.gc_mode:
+            reply('Gesture recognition is already active')
+        else:
+            gc = Gesture_Controller.GestureController()
+            event =threading.Event()
+            t =threading.Thread(target = gc.start)
+            t.start()
+            reply('Launched Successfully')
+            event.set()
+
+    elif ('stop gesture recognition' in voice_data) or ('top gesture recognition' in voice_data):
+        if Gesture_Controller.GestureController.gc_mode:
+            Gesture_Controller.GestureController.gc_mode = 0
+            reply('Gesture recognition stopped')
+        else:
+            reply('Gesture recognition is already inactive')
 
     elif 'hand sign' in voice_data:
         import Exlaw_cursor.src.Main as Main

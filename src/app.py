@@ -11,7 +11,7 @@ class ChatBot:
         msg = ChatBot.userinputQueue.get()
         
         if msg: 
-            ChatBot.getUserInput(msg)
+            ChatBot.getaUserInput(msg)
             return True
         else: 
             return not ChatBot.userinputQueue.empty()
