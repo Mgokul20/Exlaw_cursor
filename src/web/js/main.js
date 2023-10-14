@@ -22,7 +22,21 @@ document.getElementById("userInput").addEventListener("keyup", function (event) 
 
 eel.expose(addUserMsg);
 eel.expose(addAppMsg);
+async function pass_message(msg){
+  console.log("calling done");
+  const rawResponse = await fetch('https://localhost/post', {
+    method: 'POST',
+    mode:'no-cors',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: {"Message":`${msg}`}
+  })
+  console.log(rawResponse);
+  return rawResponse;
 
+}
 
 function addUserMsg(msg) {
     
