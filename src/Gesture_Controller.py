@@ -15,7 +15,7 @@ pyautogui.FAILSAFE = False
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
-# Gesture Encodings 
+# Gesture Encodings
 class Gest(IntEnum):
     # Binary Encoded
     """
@@ -30,7 +30,7 @@ class Gest(IntEnum):
     INDEX = 8
     FIRST2 = 12
     LAST4 = 15
-    THUMB = 16    
+    THUMB = 16
     PALM = 31
     
     # Extra Mappings
@@ -162,7 +162,7 @@ class HandRecog:
             try:
                 ratio = round(dist/dist2,1)
             except:
-                ratio = round(dist1/0.01,1)
+                ratio = round(dist2/0.01,1)
 
             self.finger = self.finger << 1
             if ratio > 0.5 :
@@ -294,7 +294,7 @@ class Controller:
         if currentBrightnessLv > 1.0:
             currentBrightnessLv = 1.0
         elif currentBrightnessLv < 0.0:
-            currentBrightnessLv = 0.0       
+            currentBrightnessLv = 0.0
         sbcontrol.fade_brightness(int(100*currentBrightnessLv) , start = sbcontrol.get_brightness(display=0))
     
     def changesystemvolume():
@@ -381,7 +381,7 @@ class Controller:
         controlHorizontal : callback function assosiated with horizontal
             pinch gesture.
         controlVertical : callback function assosiated with vertical
-            pinch gesture. 
+            pinch gesture.
         
         Returns
         -------
@@ -416,8 +416,8 @@ class Controller:
                 Controller.prevpinchlv = lvx
                 Controller.framecount = 0
 
-    def handle_controls(gesture, hand_result):  
-        """Impliments all gesture functionality."""      
+    def handle_controls(gesture, hand_result):
+        """Impliments all gesture functionality."""
         x,y = None,None
         if gesture != Gest.PALM :
             x,y = Controller.get_position(hand_result)
@@ -439,7 +439,7 @@ class Controller:
             pyautogui.moveTo(x, y, duration = 0.1)
 
         elif gesture == Gest.FIST:
-            if not Controller.grabflag : 
+            if not Controller.grabflag :
                 Controller.grabflag = True
                 pyautogui.mouseDown(button = "left")
             pyautogui.moveTo(x, y, duration = 0.1)
@@ -570,7 +570,7 @@ class GestureController:
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-                if results.multi_hand_landmarks:                   
+                if results.multi_hand_landmarks:
                     GestureController.classify_hands(results)
                     handmajor.update_hand_result(GestureController.hr_major)
                     handminor.update_hand_result(GestureController.hr_minor)

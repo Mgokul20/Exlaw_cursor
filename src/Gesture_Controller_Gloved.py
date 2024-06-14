@@ -12,7 +12,7 @@ class Marker:
         self.aruco_dict = aruco.Dictionary_get(dict_type)
         self.parameters = aruco.DetectorParameters_create()
         self.parameters.adap
-        self.marker_x2y = 1 
+        self.marker_x2y = 1
         self.mtx, self.dist = Marker.calibrate()
     
     def calibrate():
@@ -20,7 +20,7 @@ class Marker:
         objp = np.zeros((6*7,3), np.float32)
         objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
         objpoints = []
-        imgpoints = [] 
+        imgpoints = []
         path = os.path.dirname(os.path.abspath(__file__))
         p1 = path + r'\calib_images\checkerboard\*.jpg'
         images = glob.glob(p1)
@@ -186,7 +186,7 @@ class ROI:
             sign = 1
         else:
             sign = -1
-               
+        
         bot_rx = int(self.marker_top[0] + self.hsv_alpha * l * np.sqrt(1/(1+slope_12**2)))
         bot_ry = int(self.marker_top[1] - self.hsv_lift_up*l + self.hsv_alpha * slope_12 * l * np.sqrt(1/(1+slope_12**2)))
         
@@ -280,7 +280,7 @@ class Glove:
                 d=(2*ar)/a
                 
                 angle = math.acos((b**2 + c**2 - a**2)/(2*b*c)) * 57
-                      
+                
                 if angle <= 90 and d>30:
                     l += 1
                 
@@ -321,7 +321,7 @@ class Glove:
             #cv2.putText(frame,'5',(0,50), font, 2, (0,0,255), 3, cv2.LINE_AA)
             
         else :
-           # cv2.putText(frame,'reposition',(10,50), font, 2, (0,0,255), 3, cv2.LINE_AA)
+        # cv2.putText(frame,'reposition',(10,50), font, 2, (0,0,255), 3, cv2.LINE_AA)
         '''
 
 class Tracker:
@@ -349,7 +349,7 @@ class Tracker:
         final_bbox[0][3] = [self.tracker_bbox[0],self.tracker_bbox[1] +self.tracker_bbox[3]]
         return [np.array(final_bbox, dtype = 'f')]
         
-    def CSRT_tracker(self, frame):        
+    def CSRT_tracker(self, frame):
         if self.tracker_bbox == None and self.tracker_started == False:
             return
         
@@ -400,7 +400,7 @@ class Mouse:
         (mx_old,my_old) = pyautogui.position()
         
         
-        Damping = 2 
+        Damping = 2
         tx = position[0]
         ty = position[1]
         if self.trial:
@@ -413,7 +413,7 @@ class Mouse:
         if (gesture == 3):
             self.flag = 0
             mx = mx_old + (delta_tx*sx) // (camx*Damping)
-            my = my_old + (delta_ty*sy) // (camy*Damping)            
+            my = my_old + (delta_ty*sy) // (camy*Damping)
             pyautogui.moveTo(mx,my, duration = 0.1)
 
         elif(gesture == 0):

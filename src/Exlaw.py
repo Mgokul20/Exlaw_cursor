@@ -15,7 +15,7 @@ import wikipedia
 import  Gesture_Controller
 import  Function
 import  app
-import threading 
+import threading
 
 today = date.today()
 r = sr.Recognizer()
@@ -28,7 +28,7 @@ engine.setProperty('voice', voices[1].id)
 file_exp_status = False
 files =[]
 path = ''
-is_awake = True  
+is_awake = True
 
 def reply(audio):
     if audio:
@@ -43,14 +43,14 @@ def wish():
     if hour>=0 and hour<12:
         reply("Good Morning!")
     elif hour>=12 and hour<18:
-        reply("Good Afternoon!")   
+        reply("Good Afternoon!")
     else:
-        reply("Good Evening!")  
+        reply("Good Evening!")
         
     reply("I am Exlaw, how may I help you?")
 
 with sr.Microphone() as source:
-        r.energy_threshold = 500 
+        r.energy_threshold = 500
         r.dynamic_energy_threshold = False
 
 def record_audio():
@@ -123,12 +123,11 @@ def respond(voice_data):
             keyboard.press('c')
             keyboard.release('c')
         reply('Copied')
-          
     elif 'page' in voice_data or 'pest'  in voice_data or 'paste' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('v')
             keyboard.release('v')
-        reply('Pasted')  
+        reply('Pasted')
     elif 'launch gesture recognition' in voice_data:
         if Gesture_Controller.GestureController.gc_mode:
             reply('Gesture recognition is already active')
@@ -161,12 +160,12 @@ def respond(voice_data):
 
     elif ('stop hand sign' in voice_data) or ('top hand sign' in voice_data):
         if Main.Function.vd_mode:
-           Main.Function.vd_mode = 0
-           reply('Hand sign stopped')
+            Main.Function.vd_mode = 0
+            reply('Hand sign stopped')
         else:
             reply('Hand sign is already inactive')
-   
-  
+
+
     elif 'list' in voice_data:
         counter = 0
         path = 'C://'
@@ -181,7 +180,7 @@ def respond(voice_data):
         app.ChatBot.addAppMsg(filestr)
         
     elif file_exp_status == True:
-        counter = 0   
+        counter = 0
         if 'open' in voice_data:
             if isfile(join(path,files[int(voice_data.split(' ')[-1])-1])):
                 os.startfile(path + files[int(voice_data.split(' ')[-1])-1])
@@ -216,7 +215,7 @@ def respond(voice_data):
                     print(str(counter) + ':  ' + f)
                 reply('ok')
                 app.ChatBot.addAppMsg(filestr)
-                   
+
 
 
 event =threading.Event()
@@ -232,9 +231,9 @@ voice_data = None
 while True:
     if app.ChatBot.userinputQueue.empty() ==False:
         voice_data = app.ChatBot.popUserInput()
-    else: 
-     voice_data = record_audio()
-     print("Comes Again")
+    else:
+        voice_data = record_audio()
+    print("Comes Again")
     if 'exlaw' in voice_data:
         try:
             respond(voice_data)
@@ -244,4 +243,4 @@ while True:
         except:
             print("EXCEPTION raised while closing.") 
             event.set()
-            break     
+            break

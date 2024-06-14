@@ -20,9 +20,9 @@ class ChatBot:
         return ChatBot.userinputQueue.get()
 
     def close_callback(route, websockets):
-         if not websockets:
+        if not websockets:
             print('Bye!')
-         exit()
+        exit()
 
     @eel.expose
     def getUserInput(msg):
